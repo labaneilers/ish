@@ -1,0 +1,55 @@
+{
+  "name": "ish",
+  "version": "0.0.1",
+  "description": "Determines if an image is better as a PNG or JPG",
+  "directories": {
+    "lib": "./lib"
+  },
+  "engines": {
+    "node": ">=0.10.0"
+  },
+  "dependencies": {
+    "nomnom": "~1.8.0",
+    "gm": "~1.16.0",
+    "q": "~0.9.7"
+  },
+  "devDependencies": {
+    "chai": "~1.9.1",
+    "mocha": "~1.20.0",
+    "rewire": "~2.0.1",
+    "gulp": "~3.8.8",
+    "gulp-jshint": "~1.8.4",
+    "jshint-stylish": "~1.0.0",
+    "gulp-mocha": "~1.1.0"
+  },
+  "main": "./lib/ish",
+  "bin": {
+    "ish": "./bin/ish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/labaneilers/ish.git"
+  },
+  "bugs": {
+    "url": "https://github.com/labaneilers/ish/issues"
+  },
+  "keywords": [
+    "javascript",
+    "cache busting",
+    "static files",
+    "deployment",
+    "hashcode",
+    "CDN"
+  ],
+  "author": {
+    "name": "Laban Eilers",
+    "email": "laban@eilers.com",
+    "url": "http://www.labaneilers.com"
+  },
+  "contributors": [
+    {
+      "name": "Laban Eilers"
+    }
+  ],
+  "license": "Apache 2"
+}
