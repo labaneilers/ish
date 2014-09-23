@@ -11,7 +11,8 @@
   "dependencies": {
     "nomnom": "~1.8.0",
     "gm": "~1.16.0",
-    "q": "~0.9.7"
+    "q": "~0.9.7",
+    "node-xml-lite": "0.0.3"
   },
   "devDependencies": {
     "chai": "~1.9.1",
