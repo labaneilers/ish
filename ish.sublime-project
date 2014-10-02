@@ -2,7 +2,8 @@
 	"folders":
 	[
 		{
-			"path": "/Library/WebServer/Documents/ish"
+			"follow_symlinks": true,
+			"path": "."
 		}
 	]
 }
