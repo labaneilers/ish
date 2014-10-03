@@ -48,9 +48,19 @@ describe("lang-dir-walker", function () {
         });
     });
 
-    var assertEntry = function (fileData, expectedImageSettingsType, expectedImageSettingsFormat) {
-        assert.equal(fileData.imageSettings.type, expectedImageSettingsType);
-        assert.equal(fileData.imageSettings.format, expectedImageSettingsFormat);
+    var assertEntry = function (map, filePath, expectedImageSettingsType, expectedImageSettingsFormat) {
+        var fileData = map[filePath];
+        if (!fileData) {
+            assert.fail(null, filePath, filePath + " not found");
+        }
+
+        try {
+            assert.equal(fileData.imageSettings.type, expectedImageSettingsType);
+            assert.equal(fileData.imageSettings.format, expectedImageSettingsFormat); 
+        } catch (ex) {
+            ex.message += " " + filePath;
+            throw ex;
+        }
     };
 
     describe("#recurseDirSync()", function () {
@@ -65,14 +75,14 @@ describe("lang-dir-walker", function () {
                 // console.log(path.relative(assetsRootPath, fileData.fullPath));
                 // console.log(fileData.imageSettings);
 
-                var relativePath = path.relative(assetsRootPath, fileData.fullPath);
+                var relativePath = path.relative(assetsRootPath, fileData.fullPath).replace(/\\/g, "/");
                 map[relativePath] = fileData;
             });
 
-            assertEntry(map["www/abc/image1-2x.png"], "file", "jpeg");
-            assertEntry(map["www/abc/image2-2x.png"], "file", "png");
-            assertEntry(map["www/abc/image3-2x.png"], "dir", "jpeg");
-            assertEntry(map["www.de/abc/image1-2x.png"], "file", "jpeg");
+            assertEntry(map, "www/abc/text-flat-opaque-2x.png", "file", "jpeg");
+            assertEntry(map, "www/abc/text-flat-opaque-2-2x.png", "file", "png");
+            assertEntry(map, "www/abc/text-flat-opaque-3-2x.png", "dir", "jpeg");
+            assertEntry(map, "www.de/abc/text-flat-opaque-2x.png", "file", "jpeg");
 
         });
     });
