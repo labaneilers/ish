@@ -15,17 +15,23 @@ describe("image-processor", function () {
 
     describe("#process()", function () {
 
-        var verifyImageResult = function (filePath, expectedBestFormat, expectedAlpha) {
+        var verifyImageResult = function (filePath, expectedBestFormat, expectedAlpha, expectedTransparencyMistake) {
             it("should interpret " + filePath + " as a " + expectedBestFormat + " with alpha:" + expectedAlpha, function () {
                 var fullPath = path.join(assetsRootPath, filePath);
 
                 return imageProcessor.process(fullPath)
                     .then(
                         function (result) {
-                            assert.equal(result.bestFormat, expectedBestFormat);
+                            try {
+                                assert.equal(result.bestFormat, expectedBestFormat);
+                                assert.equal(result.transparencyMistake || "", expectedTransparencyMistake || "");
 
-                            var assertionMethod = expectedAlpha ? assert.isTrue : assert.isFalse;
-                            assertionMethod(result.alpha, filePath + " should have resulted in alpha:" + expectedAlpha)
+                                var assertionMethod = expectedAlpha ? assert.isTrue : assert.isFalse;
+                                assertionMethod(result.alpha, "Should have resulted in alpha:" + expectedAlpha);
+                            } catch (ex) {
+                                ex.message = filePath + ": " + ex.message;
+                                throw ex;
+                            }
                         });
             });
         };
@@ -37,9 +43,9 @@ describe("image-processor", function () {
         verifyImageResult("www/abc/text-flat-opaque-3-2x.png", "png", false);
         verifyImageResult("www/def/icons-flat-trans-2x.png", "png", true);
         verifyImageResult("www/logo-trans-2x.png", "png", true);
-        verifyImageResult("www/hoodies-mistaketrans-2x.png", "jpg", false);
-        verifyImageResult("www/abc/flat-circle-mistaketrans-2x.png", "png", false);
-        verifyImageResult("www/photo-with-trans-2x.png", "unknown", true);
+        verifyImageResult("www/hoodies-mistaketrans-2x.png", "jpg", false, "minor");
+        verifyImageResult("www/abc/flat-circle-mistaketrans-2x.png", "png", false, "minor");
+        verifyImageResult("www/photo-with-trans-2x.png", "unknown", true, "major");
         verifyImageResult("www/small-flat-trans-2x.png", "png", true);
         verifyImageResult("www/def/gradient-flat-opaque-2x.png", "png", false);
         verifyImageResult("www.de/abc/text-flat-opaque-2x.png", "png", false);
@@ -49,7 +55,7 @@ describe("image-processor", function () {
         verifyImageResult("www.de/abc/text-flat-shouldchange-2x.png", "png", false);
         verifyImageResult("www/text-flat-opaque-2x.png", "png", false);
         verifyImageResult("www/problems/big-gradient-opaque-2x.png", "png", false);
-        verifyImageResult("www/photo-mistaketrans-2x.png", "jpg", false);
+        verifyImageResult("www/photo-mistaketrans-2x.png", "jpg", false, "minor");
         verifyImageResult("www/problems/large-purple-flat-opaque-2x.png", "png", false);
 
         
