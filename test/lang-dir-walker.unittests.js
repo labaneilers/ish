@@ -11,40 +11,22 @@ describe("lang-dir-walker", function () {
 
     describe("#getWwwDir()", function () {
 
-        it("should replace a path with www at the root of the basepath", function () {
-            var result = langDirWalker.getWwwDir("/root/a/b/c/", "/root/a/b/c/www.de/foo/bar/baz.png");
+        it("should replace a path with www", function () {
+            var result = langDirWalker.getWwwDir("/root/a/b/c/www.de/foo/bar/baz.png");
 
             assert.equal(result, "/root/a/b/c/www/foo/bar/baz.png");
         });
 
-        it("should replace a path with www at the root of the basepath, specific", function () {
-            var result = langDirWalker.getWwwDir("/Library/WebServer/Documents/ish/assets", "/Library/WebServer/Documents/ish/assets/www.de/abc/image1-2x.png.imagesettings.xml");
+        it("should replace a path with www, 2", function () {
+            var result = langDirWalker.getWwwDir("/Library/WebServer/Documents/ish/assets/www.de/abc/image1-2x.png.imagesettings.xml");
 
             assert.equal(result, "/Library/WebServer/Documents/ish/assets/www/abc/image1-2x.png.imagesettings.xml");
         });
 
-        it("should replace a path with www at the root of the basepath, even if it has another www dir", function () {
-            var result = langDirWalker.getWwwDir("/root/a/b/c/", "/root/a/b/c/www.de/foo/www.fr/bar/baz.png");
-
-            assert.equal(result, "/root/a/b/c/www/foo/www.fr/bar/baz.png");
-        });
-
-        it("should replace a path with www at the root of the basepath, using windows format", function () {
-            var result = langDirWalker.getWwwDir("C:\\root\\a\\b\\c\\", "C:\\root\\a\\b\\c\\www.de\\foo\\bar\\baz.png");
+        it("should replace a path with www using windows format", function () {
+            var result = langDirWalker.getWwwDir("C:\\root\\a\\b\\c\\www.de\\foo\\bar\\baz.png");
 
             assert.equal(result, "C:\\root\\a\\b\\c\\www\\foo\\bar\\baz.png");
-        });
-
-        it("should throw exception if path isn't in baseDir", function () {
-
-            try {
-                langDirWalker.getWwwDir("/root/a/b/c/", "/root/a/b/d/www.de/foo/bar/baz.png");
-            } catch (ex) {
-                assert.equal(ex.message, "/root/a/b/d/www.de/foo/bar/baz.png is not in baseDir: /root/a/b/c/");
-                return;
-            }
-
-            assert.fail("No execption was thrown");
         });
     });
 
