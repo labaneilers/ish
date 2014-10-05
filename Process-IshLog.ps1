@@ -1,5 +1,5 @@
 $global:log = Resolve-Path $args[0]
-$global:scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+$global:scriptPath = split-path -parent $MyInvocation.MyCommand.Definition 
 
 Function Create-Log($grep, $outputFile) {
     $outputFile = "$($global:log)-$outputFile"
@@ -9,7 +9,14 @@ Function Create-Log($grep, $outputFile) {
     $contentNode = $xml.html.body.content
     $contentTemplate = $contentNode.InnerXml
 
-    $content = cat $global:log | grep "$grep" | cut -f1 | % { $contentTemplate -replace '#path', $_ }
+    $lines = (cat $global:log | grep "$grep")
+
+    $content = $lines | % { 
+        $itemHtml = ($contentTemplate -replace '#path', $_.Split("`t")[0])
+        $itemHtml = $itemHtml -replace '#log', ($_.Split("`t") -join "<br />")
+        $itemHtml
+    }
+
     $joined = $content -join "`n"
 
     $contentNode.InnerXml = $joined
