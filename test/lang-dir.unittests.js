@@ -28,4 +28,24 @@ describe("lang-dir", function () {
             assert.equal(result, "C:\\root\\a\\b\\c\\www\\foo\\bar\\baz.png");
         });
     });
+
+    describe("#dedupeFavorUs()", function () {
+
+        it("should remove duplicate entries", function () {
+            var list = [
+                "/www/foo/a.png",
+                "/www/foo/b.png",
+                "/www.de/foo/a.png",
+                "/www.de/baz/a.png",
+                "/www.fr/baz/a.png"
+            ];
+
+            var result = langDir.dedupeFavorUs(list);
+
+            assert.equal(result.length, 3);
+            assert.include(result, "/www/foo/a.png");
+            assert.include(result, "/www/foo/b.png");
+            assert.include(result, "/www.de/baz/a.png");
+        });
+    });
 });

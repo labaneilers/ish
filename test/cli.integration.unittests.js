@@ -39,7 +39,10 @@ describe("cli", function () {
         assertEntry(map, "www/abc/text-flat-opaque-2x.png", "file", "jpeg");
         assertEntry(map, "www/abc/text-flat-opaque-2-2x.png", "file", "png");
         assertEntry(map, "www/abc/text-flat-opaque-3-2x.png", "dir", "jpeg");
-        assertEntry(map, "www.de/abc/text-flat-opaque-2x.png", "file", "jpeg");
+
+        // If there is a non-US version of a file that also exists in the US,
+        // exclude it explicitly.
+        assert.isUndefined(map["www.de/abc/text-flat-opaque-2x.png"]);
     }
 
     describe("#getFileDataList()", function () {

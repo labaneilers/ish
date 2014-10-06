@@ -15,7 +15,8 @@
     "node-xml-lite": "0.0.3",
     "async-q": "^0.2.2",
     "chalk": "~0.5.1",
-    "temp": "^0.8.1"
+    "temp": "^0.8.1",
+    "timespan": "^2.3.0"
   },
   "devDependencies": {
     "chai": "~1.9.1",
