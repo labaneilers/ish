@@ -48,4 +48,18 @@ describe("lang-dir", function () {
             assert.include(result, "/www.de/baz/a.png");
         });
     });
+
+    describe("#getAllMatchingWwwDirs()", function () {
+
+        var _assetsRootPath = path.resolve(__dirname, "../assets");
+
+        it("should find all parallel www* directories", function () {
+            
+            var result = langDir.getAllMatchingWwwDirs(path.resolve(__dirname, "../assets/www/abc"));
+
+            assert.equal(result.length, 2);
+            assert.include(result, path.resolve(__dirname, "../assets/www/abc"));
+            assert.include(result, path.resolve(__dirname, "../assets/www.de/abc"));
+        });
+    });
 });
