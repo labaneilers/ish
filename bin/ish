@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 var cli = require("../lib/cli");
+var cliHelper = require("../lib/cli-helper");
 
-cli.execute(process.stdin, process.stdout, process.stderr, process.argv, process.cwd(), function (exitCode) {
+cliHelper.execute(cli.main, function (exitCode) {
     process.exit(exitCode);
 });
