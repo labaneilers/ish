@@ -1,8 +1,11 @@
 var gulp = require("gulp");
 var jshint = require("gulp-jshint");
 var mocha = require("gulp-mocha");
+var runSequence = require("run-sequence");
 
-gulp.task("default", ["jshint", "mocha"]);
+gulp.task("default", function (callback) {
+	return runSequence("jshint", "mocha", callback);
+});
 
 gulp.task("jshint", function () {
     return gulp.src(["./gulpfile.js", "./lib/**/*.js", "./bin/*.js"])
@@ -11,7 +14,17 @@ gulp.task("jshint", function () {
         .pipe(jshint.reporter("fail"));
 });
 
-gulp.task("mocha", ["jshint"], function () {
-    return gulp.src(["./test/**/*.js"], { read: false })
-        .pipe(mocha({ reporter: "spec" }));
+var testsTask = function (glob) {
+	return function () {
+		return gulp.src([glob], { read: false })
+        	.pipe(mocha({ reporter: "spec" }));
+	};
+};
+
+gulp.task("mocha", function (callback) {
+	return runSequence("unittests", "integrationtests", callback);
 });
+
+gulp.task("unittests", testsTask("./test/**/*.unittests.js"));
+
+gulp.task("integrationtests", testsTask("./test/**/*.integrationtests.js"));

@@ -39,11 +39,12 @@ describe("cli", function () {
         assertEntry(map, "www/abc/text-flat-opaque-2x.png", "file", "jpeg");
         assertEntry(map, "www/abc/text-flat-opaque-2-2x.png", "file", "png");
         assertEntry(map, "www/abc/text-flat-opaque-3-2x.png", "dir", "jpeg");
+        assertEntry(map, "www.de/abc/text-flat-shouldchange-2x.png", "dir", "jpeg");
 
         // If there is a non-US version of a file that also exists in the US,
         // exclude it explicitly.
         assert.isUndefined(map["www.de/abc/text-flat-opaque-2x.png"]);
-    }
+    };
 
     describe("#getFileDataList()", function () {
 
@@ -59,6 +60,21 @@ describe("cli", function () {
             var results = getFileDataList(fsutil.recurseDirSync(_assetsRootPath), null);
 
             assertFromAssetsDir(results);
+        });
+
+        it("should use US version of file if exists", function () {
+            debugger;
+            var results = getFileDataList(null, path.join(_assetsRootPath, "www.de/abc/text-flat-opaque-2x.png"));
+
+            assert.equal(results.length, 1);
+            assert.equal(results[0].fullPath, path.join(_assetsRootPath, "www/abc/text-flat-opaque-2x.png"));
+        });
+
+        it("should use specified language version of file if exists", function () {
+            var results = getFileDataList(null, path.join(_assetsRootPath, "www.de/abc/text-flat-shouldchange-2x.png"));
+
+            assert.equal(results.length, 1);
+            assert.equal(results[0].fullPath, path.join(_assetsRootPath, "www.de/abc/text-flat-shouldchange-2x.png"));
         });
     });
 });
