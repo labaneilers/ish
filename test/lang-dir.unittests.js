@@ -31,8 +31,9 @@ describe("lang-dir", function () {
 
     describe("#dedupeFavorUs()", function () {
 
-        it("should remove duplicate entries", function () {
+        it("should remove duplicate corresponding paths, favoring US version", function () {
             var list = [
+                "/www/foo/a.png",
                 "/www/foo/a.png",
                 "/www/foo/b.png",
                 "/www.de/foo/a.png",
@@ -49,17 +50,43 @@ describe("lang-dir", function () {
         });
     });
 
-    describe("#getAllMatchingWwwDirs()", function () {
+    describe("#getAllMatchingWwwPaths()", function () {
 
         var _assetsRootPath = path.resolve(__dirname, "../assets");
 
+        it("should return the original path if no www directory is in the path", function () {
+            
+            var result = langDir.getAllMatchingWwwPaths("/foo/bar/baz");
+
+            assert.equal(result.length, 1);
+            assert.include(result, "/foo/bar/baz");
+        });
+
         it("should find all parallel www* directories", function () {
             
-            var result = langDir.getAllMatchingWwwDirs(path.resolve(__dirname, "../assets/www/abc"));
+            var result = langDir.getAllMatchingWwwPaths(path.resolve(__dirname, "../assets/www/abc"));
 
             assert.equal(result.length, 2);
             assert.include(result, path.resolve(__dirname, "../assets/www/abc"));
             assert.include(result, path.resolve(__dirname, "../assets/www.de/abc"));
+        });
+
+        it("should find all parallel www* files when a US path is passed", function () {
+            
+            var result = langDir.getAllMatchingWwwPaths(path.resolve(__dirname, "../assets/www/abc/text-flat-opaque-2x.png"));
+
+            assert.equal(result.length, 2);
+            assert.include(result, path.resolve(__dirname, "../assets/www/abc/text-flat-opaque-2x.png"));
+            assert.include(result, path.resolve(__dirname, "../assets/www.de/abc/text-flat-opaque-2x.png"));
+        });
+
+        it("should find all parallel www* files when a non-US path is passed", function () {
+            
+            var result = langDir.getAllMatchingWwwPaths(path.resolve(__dirname, "../assets/www.de/abc/text-flat-opaque-2x.png"));
+
+            assert.equal(result.length, 2);
+            assert.include(result, path.resolve(__dirname, "../assets/www/abc/text-flat-opaque-2x.png"));
+            assert.include(result, path.resolve(__dirname, "../assets/www.de/abc/text-flat-opaque-2x.png"));
         });
     });
 });

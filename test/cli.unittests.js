@@ -63,14 +63,13 @@ describe("cli", function () {
         });
 
         it("should use US version of file if exists", function () {
-            debugger;
             var results = getFileDataList(null, path.join(_assetsRootPath, "www.de/abc/text-flat-opaque-2x.png"));
 
             assert.equal(results.length, 1);
             assert.equal(results[0].fullPath, path.join(_assetsRootPath, "www/abc/text-flat-opaque-2x.png"));
         });
 
-        it("should use specified language version of file if exists", function () {
+        it("should use specified language version of file if no US version exists", function () {
             var results = getFileDataList(null, path.join(_assetsRootPath, "www.de/abc/text-flat-shouldchange-2x.png"));
 
             assert.equal(results.length, 1);
