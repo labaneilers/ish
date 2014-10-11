@@ -41,6 +41,10 @@ describe("cli", function () {
         // If there is a non-US version of a file that also exists in the US,
         // exclude it explicitly.
         assert.isUndefined(map["www.de/abc/text-flat-opaque-2x.png"]);
+
+        results.forEach(function (result) {
+            assert.isTrue(result.fullPath.indexOf("-2x.png") >= 0, result.fullPath + " does not contain -2x.png");
+        });
     };
 
     describe("#getFileDataList()", function () {
