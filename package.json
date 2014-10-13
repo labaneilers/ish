@@ -40,12 +40,7 @@
     "url": "https://github.com/labaneilers/ish/issues"
   },
   "keywords": [
-    "javascript",
-    "cache busting",
-    "static files",
-    "deployment",
-    "hashcode",
-    "CDN"
+    "image optimization"
   ],
   "author": {
     "name": "Laban Eilers",
