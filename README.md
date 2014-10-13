@@ -24,21 +24,31 @@ Examples
 ------------------
 
 Run ish in the current directory, processing all images recursively.
+
 ```shell
 ish ./
 ```
 
 Run ish in the current directory, processing all images recursively, creating imagesettings.xml files for all images that don't have the correct settings, and that don't already have an explicit imagesettings.xml.
+
 ```shell
 ish ./ -s
 ```
 
 Run ish in the current directory, processing all images recursively, creating imagesettings.xml files for all images that don't have the correct settings, overwriting any explicit imagesettings.xml files.
+
 ```shell
 ish ./ -s -f
 ```
 
+Run ish in the specified file, first checking if there is a corresponding file in the /www directory. If there is, it will be processed instead.
+
+```shell
+ish ./www.de/foo/bar/my-2x.png -s
+```
+
 Run ish on the file paths piped in from a git command.
+
 ```shell
 {some git command} | ish -s
 ```
