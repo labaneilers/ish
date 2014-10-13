@@ -12,10 +12,11 @@ Usage
 <pre>
 Options:
    -v, --verbose       Print verbose results
+   --friendly          Print results in a friendly, non-technical (less-parsable) form
    -h, --help          Show help
    -s, --save          Saves imagesettings.xml for files that are not in the ideal format
    -f, --force         Overwrites existing imagesettings.xml files that aren't in the correct format
-   -c, --concurrency   Maximum number of ImageMagick processes to spawn at one time  [8]
+   -c, --concurrency   Maximum number of ImageMagick processes to spawn at one time  [6]
    -n, --nocolor       Disable color output
 </pre>
 
